@@ -33,6 +33,10 @@
           <input type="search" name="searchTerm" class="form-control" placeholder="Search..." aria-label="Search">
         </form>
       </div>
+       <% if(typeof user !== 'undefined' && user) { %>
+        <span>${user.name}</span>
+       <button>logout</button>
+        <% }%>
     </header>
 
     <main>
