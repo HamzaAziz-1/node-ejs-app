@@ -20,6 +20,10 @@ a { color: var(--bs-dark); }
   transition: 250ms all;
 }
 
+.sign-up-container{
+  height: 83vh;
+}
+
 .category__link:hover {
   transform: scale(1.1);
 }

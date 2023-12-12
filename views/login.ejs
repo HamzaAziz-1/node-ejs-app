@@ -1,0 +1,66 @@
+<div class="container sign-up-container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <form id="loginForm" action="/login" method="post">
+        <h3 class="text-center mt-5 pt-5">Login</h3>
+        
+        <div class="form-group pt-2">
+          <label for="email">Email</label>
+          <input required minlength="10" type="email" class="form-control" name="email" placeholder="Enter your Email" id="email" />
+          <small class="text-danger" id="email-error"></small>
+        </div>
+
+        <div class="form-group pt-2">
+          <label for="password">Password</label>
+          <input required minlength="6" type="password" class="form-control" name="password" placeholder="Password" id="password" />
+          <small class="text-danger" id="password-error"></small>
+        </div>
+        <p class="mt-2">Create an account? <a href="/signup">Sign Up</a></p>
+       
+        <button type="submit" class="btn btn-warning mt-2 text-center">Login</button>
+      </form>
+    </div>
+  </div>
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const loginForm = document.getElementById("loginForm");
+
+  loginForm.addEventListener("submit", async function(event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    try {
+      const formData = new FormData();
+      formData.append("email", email);
+      formData.append("password", password);
+
+      const response = await fetch("/login", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Invalid Credentials");
+      }
+
+      const data = await response.json();
+      const { token } = data;
+
+      // Set the received token in localStorage
+      localStorage.setItem("token", token);
+
+      // Redirect or perform any other action as needed
+      window.location.href = "/"; // Redirect to home page
+    } catch (error) {
+      console.error("Error:", error);
+      // Handle error, display error message, etc.
+    }
+  });
+});
+</script>
+
+
+

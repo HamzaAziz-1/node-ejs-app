@@ -7,3 +7,4 @@ mongoose
 // Models
 require("./Category");
 require("./Recipe");
+require("./User")

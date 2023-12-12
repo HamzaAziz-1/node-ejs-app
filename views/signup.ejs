@@ -1,0 +1,62 @@
+<div class="container sign-up-container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <form method="post">
+        <h3 class="text-center mt-5 pt-5">Signup to Continue</h3>
+        
+        <div class="form-group pt-2">
+          <label for="name">User Name</label>
+          <input required minlength="5" type="text" class="form-control" name="name" placeholder="User Name" id="name" />
+          <small class="text-danger" id="name-error"></small>
+        </div>
+        
+        <div class="form-group pt-2">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" name="email" required minlength="8" placeholder="Enter your Email" id="email" />
+          <small class="text-danger" id="email-error"></small>
+        </div>
+
+        <div class="form-group pt-2">
+          <label for="password">Password</label>
+          <input type="password" class="form-control" required minlength="6" name="password" placeholder="Password" id="password" />
+          <small class="text-danger" id="password-error"></small>
+        </div>
+        <p class="mt-2">Already have an account?
+          <a href="/login">Login</a>
+        </p>
+        <button type="submit" class="btn btn-warning mt-2 text-center">Signup</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  var form = document.querySelector("form");
+  var nameError = document.querySelector("#name-error");
+  var passwordError = document.querySelector("#password-error");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    nameError.textContent = "";
+    passwordError.textContent = "";
+
+    const name = form.name.value;
+    const password = form.password.value;
+
+    try {
+      const res = await fetch("/signup", {
+        method: "POST",
+        body: JSON.stringify({ name, password }),
+        headers: { "Content-Type": "application/json" },
+      });
+      const data = await res.json();
+      if (data.user) {
+        location.assign("/login");
+      } else {
+        nameError.textContent = data.error.name;
+        passwordError.textContent = data.error.password;
+      }
+      console.log(data);
+    } catch (e) {}
+  });
+</script>
